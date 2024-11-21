@@ -6,8 +6,10 @@ const express = require('express');
 const connectDB = require('./config/database');
 const ikasleRoutes = require('./routes/ikasle.routes');
 const errorHandler = require('./middleware/error.middleware');
+const taldeRoutes = require('./routes/talde.routes');
 
 const app = express();
+
 
 // MongoDB konexioa
 connectDB();
@@ -40,3 +42,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Zerbitzaria martxan ${PORT} portuan`);
 });
+
+
+app.use('/api/taldeak', taldeRoutes);
