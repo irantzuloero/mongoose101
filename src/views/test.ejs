@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,22 +29,50 @@
             document.getElementById('newIkasle').innerText = JSON.stringify(data, null, 2);
         }
         async function deleteIkasle() {
-        const id = document.getElementById("deleteId").value;
+            const id = document.getElementById("deleteId").value;
 
-        const response = await fetch(`/api/ikasleak/${id}`, {
-          method: "DELETE",
-        });
+            const response = await fetch(`/api/ikasleak/${id}`, {
+                method: "DELETE",
+            });
 
-        const data = await response.json();
-        document.getElementById("deletedIkasle").innerText = JSON.stringify(
-          data,
-          null,
-          2
-        );
-      }
+            const data = await response.json();
+            document.getElementById("deletedIkasle").innerText = JSON.stringify(
+                data,
+                null,
+                2
+            );
+        }
+        async function updateIkasle() {
+            const aukeratuta = document.getElementById("ikasleSelect").value;
+            const izenBerria = document.getElementById("editIzena").value;
+            const adinBerria = document.getElementById("editAdina").value;
+            const emailBerria = document.getElementById("editEmail").value;
+
+            if(!aukeratuta){
+                alert("Ikasle bat aukeratu behar duzu");
+                return;
+            }
+
+            const datuBerriak = {
+                izena: izenBerria,
+                adina: adinBerria,
+                email: emailBerria,
+            };
+
+            const response = await fetch('/api/ikasleak', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datuBerriak)
+            });
+
+            const data = await response.json();
+        }
 
     </script>
 </head>
+
 <body>
     <h1>Test Ikasleak API</h1>
     <button onclick="fetchIkasleak()">Get Ikasleak</button>
@@ -64,12 +92,31 @@
         <button type="submit">Create</button>
     </form>
     <h2>Delete Ikasle</h2>
-    <form onsubmit="event.preventDefault(); createIkasle();">
+    <form onsubmit="event.preventDefault(); deleteIkasle();">
         <label for="izena">IkasleID:</label>
-        <input type="text" id="id" name="id" required>
+        <input type="value" id="deleteId" name="deleteId" required>
         <br>
         <button type="submit">Delete</button>
     </form>
+    <h2>Edit Ikasle</h2>
+    <form onsubmit="event.preventDefault(); deleteIkasle();">
+        <label for="izena">Ikasle Email:</label>
+        <select id="ikasleSelect" name="ikasleSelect" required>
+            <option value="" disabled selected>Choose an ikasle</option>
+        </select>
+        <br>
+        <label for="izena">Izena:</label>
+        <input type="text" id="editIzena" name="editIzena" required>
+        <br>
+        <label for="izena">Adina:</label>
+        <input type="text" id="editAdina" name="editAdina" required>
+        <br>
+        <label for="izena">Email:</label>
+        <input type="text" id="editEmail" name="editEmail" required>
+        <br>
+        <button type="submit">Edit</button>
+    </form>
     <pre id="newIkasle"></pre>
 </body>
+
 </html>
