@@ -43,16 +43,26 @@ exports.deleteIkasleById = async (req, res, next) => {
     }
 };
 
-exports.updateIkasleByEmail = async (req, res, next) =>{
+exports.updateIkasleById = async (req, res, next) => {
     try {
-        const ikasle = await Ikasle.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const ikasle = await Ikasle.findById(req.params.id);  // Buscar por ID
+
         if (!ikasle) {
             return res.status(404).json({ message: 'Ikaslea ez da aurkitu' });
         }
-        res.json(ikasle);
+
+        const updatedIkasle = await Ikasle.findByIdAndUpdate(ikasle._id, req.body, {
+            new: true,
+            runValidators: true
+        });
+
+        res.json(updatedIkasle);
     } catch (error) {
         next(error);
     }
 };
+
+
+
 
 // Gehitu beste kontroladoreak...
