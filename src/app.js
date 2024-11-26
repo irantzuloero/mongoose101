@@ -6,8 +6,8 @@ const express = require('express');
 const connectDB = require('./config/database');
 const ikasleRoutes = require('./routes/ikasle.routes');
 const errorHandler = require('./middleware/error.middleware');
-const taldeRoutes = require('./routes/talde.routes');
 
+ 
 const app = express();
 
 
@@ -44,4 +44,3 @@ app.listen(PORT, () => {
 });
 
 
-app.use('/api/taldeak', taldeRoutes);
